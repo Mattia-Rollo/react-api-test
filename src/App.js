@@ -3,11 +3,12 @@ import "./App.css";
 import { useState } from "react";
 
 function App() {
-  const [like, setLike] = useState([]);
+  const [cards, setCards] = useState([]);
+  const img = "https://image.tmdb.org/t/p/w500/";
   const getMovie = async () => {
     try {
       const response = await fetch(
-        "https://www.omdbapi.com/?i=tt3896198&apikey=c89e78e0"
+        "https://api.themoviedb.org/3/movie/550?api_key=8ace785dd1f96b68334521629f5dadaf&language=it"
       );
       // .then((res) => console.log(res))
       // .then((data) => console.log(data));
@@ -17,8 +18,8 @@ function App() {
       } else {
         const data = await response.json();
         console.log(data);
-        setLike((prevData) => {
-          return [...prevData, { ...data, id: like.length }];
+        setCards((prevCards) => {
+          return [...prevCards, { ...data, id: cards.length }];
         });
       }
     } catch (error) {
@@ -39,25 +40,46 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React {like.length}
+          Learn React {cards.length}
         </a>
         <button onClick={getMovie}>premi</button>
         <ul>
-          {like
-            ? like.map((item) => (
-                <li key={item.id}>
-                  {/* {Object.entries(item).map(
+          {cards
+            ? cards.map((card) => (
+                <>
+                  {/* <li key={card.id}>
+                    {Object.entries(item).map(
                     ([key, value]) => `${key}: ${value}`
-                  )} */}
-                  <img src={item.Poster} alt="ok" />
-                  <div>{item.Plot}</div>
-                  <div>{item.Actors}</div>
-                </li>
+                  )}
+                    <img
+                      src={
+                        "https://image.tmdb.org/t/p/w500/" + card.backdrop_path
+                      }
+                      alt="ok"
+                    />
+                    <div>{card.overview}</div>
+                    <div>{card.Actors}</div>
+                  </li> */}
+                  <Card key={card.id} card={card} />
+                </>
               ))
             : "no item"}
         </ul>
       </header>
     </div>
+  );
+}
+
+function Card({ card }) {
+  return (
+    <>
+      <img
+        src={"https://image.tmdb.org/t/p/w500/" + card.backdrop_path}
+        alt="ok"
+      />
+      <h3>{card.title}</h3>
+      <div>{card.overview}</div>
+    </>
   );
 }
 
