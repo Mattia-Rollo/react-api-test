@@ -1,6 +1,8 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
+import '/node_modules/bootstrap/dist/css/bootstrap.css';
+// import '/node_modules/bootstrap/dist/js/bootstrap.bundle';
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -39,7 +41,7 @@ function App() {
 
           console.log(data, dataUser);
           setCards((prevCards) => {
-            return [...prevCards, {...data, id: cards.length + 1, dataUser}];
+            return [...prevCards, {...data,  ...dataUser,id: cards.length + 1}];
           });
           console.log(cards)
         }
@@ -53,26 +55,33 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React {cards.length}
-        </a>
-        <button onClick={getMovie}>premi</button>
-        <ul>
-          {cards
-            ? cards.map((card) => (
+       
+        <button onClick={getMovie} className="btn btn-lg btn-primary m-3">premi</button>
+        <div className="container">
+          <div className="row row-cols-4 g-2">
+            {/* <div className="card" aria-hidden="true">
+              <img src="..." className="card-img-top" alt="..." />
+              <div className="card-body">
+                <h5 className="card-title placeholder-glow">
+                  <span className="placeholder col-6"></span>
+                </h5>
+                <p className="card-text placeholder-glow">
+                  <span className="placeholder col-7"></span>
+                  <span className="placeholder col-4"></span>
+                  <span className="placeholder col-4"></span>
+                  <span className="placeholder col-6"></span>
+                  <span className="placeholder col-8"></span>
+                </p>
+                <a href="#" tabIndex="-1" className="btn btn-primary disabled placeholder col-6"></a>
+              </div>
+            </div> */}
+            {cards
+              ? cards.map((card) => (
                 <Card key={card.id} card={card} />
-              ))
-            : "no item"}
-        </ul>
+                ))
+                : "no item"}
+          </div>
+        </div>
       </header>
     </div>
   );
@@ -85,10 +94,12 @@ function Card({ card }) {
         src={"https://image.tmdb.org/t/p/w500/" + card.backdrop_path}
         alt="ok"
       /> */}
-      <h3>{card.title}</h3>
-      <h3>{card.dataUser.name}</h3>
-      <div>card id: {card.id}</div>
-      <div>{card.overview}</div>
+      <div className="col bg-gradient">
+        <h3 >{card.title}</h3>
+        <h5 className="text-secondary">Autor: {card.name}</h5>
+        {/* <div>card id: {card.id}</div> */}
+        <p>{card.body}</p>
+      </div>
     </>
   );
 }
